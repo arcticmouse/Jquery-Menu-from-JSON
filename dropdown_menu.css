@@ -1,0 +1,52 @@
+/*
+salmon: ffadad;
+purple: ffadf9;
+green: adffbd;
+*/
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  width: 200px;
+  height: 70px;
+  background-color: orange;
+  display: block;
+}
+
+.menu-item ul {
+  list-style-type: none; 
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item li {
+  width: 200px;
+  height: 70px;
+  border: 1px solid #000;
+  text-align: center;
+  line-height: 70px;
+}
+
+.menu-item > ul > ul {
+  display: none;
+  margin-left: 200px;
+  margin-top: -70px;
+}
+.menu-item > ul > ul > ul {
+  display: none;
+  margin-left: 200px;
+  margin-top: -70px;
+}
+
+.menu-item > ul > li { 
+  background-color: #ffadad;
+}
+.menu-item > ul > ul > li { 
+  background-color: #ffadf9; 
+}
+.menu-item > ul > ul > ul > li { 
+  background-color: #adffbd; 
+}

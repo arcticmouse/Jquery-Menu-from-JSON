@@ -1,0 +1,79 @@
+<!doctype html>
+<!--[if lt IE 8]> <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Dropdown Menu</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="dropdown_menu.css">
+</head>
+<body>
+
+<div class="menu-item">Hello world.</div>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="dropdown_menu.js"></script>
+<script>
+$(function () {
+  console.log(MENU);
+});
+
+$(document).ready(function(){//when document is loaded pull in JSON to populate menu & submenus
+
+	function manipulateTheDOM(){
+		//clicking an item alerts it's text
+		$('.menu-item li').click(function(){
+			alert($(this).html());
+		});
+
+		//show second ul with mouseover
+		$('.menu-item > ul > li:nth-of-type(3), .menu-item > ul > ul').mouseover(function(){ 
+			$('.menu-item > ul > ul').show(); 
+		});
+		/*for hide on mouseout - commenting out because not explicitly in instructions
+		$('.menu-item > ul > li:nth-of-type(3), .menu-item > ul > ul').mouseout(function(){ 
+		  	$('.menu-item > ul > ul').hide(); 
+		});*/
+
+		//show third ul with mouseover
+		$('.menu-item > ul > ul > li:nth-of-type(3), .menu-item > ul > ul > ul').mouseover(function(){ 
+			$('.menu-item > ul > ul > ul').show(); 
+		});
+		/*for hide on mouseout - commenting out because not explicitly in instructions
+		$('.menu-item > ul > ul > li:nth-of-type(3), .menu-item > ul > ul > ul').mouseout(function(){ 
+			$('.menu-item > ul > ul > ul').hide(); 
+		});*/
+	}
+	
+
+	/*********************************************************/
+	/*********************POPULATE THE MENU*******************/
+	/*********************************************************/
+	//recursive function to populate a menu from nested JSON 
+	//function takes in the parent object (a ul), and the data that populates the menu
+	function fillInTheMenu(ul, data){
+		for(var i=0; i<data.length; i++){//loop through the data that populates our menu
+			var item = data[i];//get object data as a local var
+			var li = $(ul).append('<li>' + item['title'] + '</li>');//create li for the title & save it as a reference
+			if(item['submenu']) {//if there is a submenu
+				var sub_ul = $('<ul></ul>');//create a new ul and save as a reference
+				$(li).append(sub_ul);//new li goes into our current ul
+				fillInTheMenu($(sub_ul), item['submenu']);//recursion with current ul and current menu set
+			}//end if
+		}//end for
+	} //end function fillInTheMenu
+
+	//if MENU is not null then call the recursive function
+	if(MENU){
+		var list = $('<ul></ul>'); //create the first ul 
+		$('.menu-item').append(list); //add first ul to the provided div
+		fillInTheMenu(list, MENU); //send first ul and JSON to be processed like a hot dog
+		manipulateTheDOM();
+	}
+});
+</script>
+</body>
+</html>
